@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { API } from '../../sevice/Api';
+import { API } from '../sevice/Api';
 
 import { TextField, Box, Button, Typography, styled } from '@mui/material';
+import background from '../assets/background.png';
+
+const bg2 = "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100";
 
 const Component = styled(Box)`
     width: 400px;
@@ -90,8 +93,8 @@ const Login = () =>{
         formData.append('password', signup.password);
         formData.append('profilePhoto', signup.profilePhoto);
 
- //Add Signup from backend and change onclick function (niche) also add photo vala section jase upr vale handleSignup me hai  
-    const signupUser = async () => {
+        //Add Signup from backend and change onclick function (niche) also add photo vala section jase upr vale handleSignup me hai  
+        const signupUser = async () => {
             let response = await API.userSignup(signup);
             if (response.isSuccess) {
                 showError('');
@@ -101,7 +104,7 @@ const Login = () =>{
                 showError('Something went wrong! please try again later');
             }
                
-            }
+        }
 
         try {
             const response = await fetch('', {
@@ -118,7 +121,7 @@ const Login = () =>{
             console.error('Error during signup:', error);
         }
     };
-//Add login from backend
+    //Add login from backend
     const handleLogin = async () => {
         try {
             const response = await API.userLogin(login);
@@ -134,36 +137,55 @@ const Login = () =>{
     };
     
     return(
-        <Component>
-            <Box>
-                <Image src='https://cdn.logojoy.com/wp-content/uploads/2018/05/30164213/375.png' alt="login" />
-                {
-                    account === 'login' ?
-                  <Wrapper>
-                   <TextField variant="standard" label='Enter Username' />
-                   <TextField variant="standard" label='Enter Password'/>
+        <div className='w-screen h-screen flex items-center'> 
+            <div
+                style={{
+                    backgroundImage: `url(${bg2})`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    filter: 'brightness(0.4)',
+                    zIndex : -1
+                }}
+                className="absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center"
+            >
+            </div>
+            <Component sx={{
+                backdropFilter: 'blur(3px) saturate(180%)',
+                bgColor: "rgba(255, 255, 255, 0.46)",
+                borderRadius: "12px",
+                border: "1px solid rgba(255, 255, 255, 0.125)"
+            }}>
+                
+                <Box>
+                    <Image src='https://cdn.logojoy.com/wp-content/uploads/2018/05/30164213/375.png' alt="login" />
+                    {
+                        account === 'login' ?
+                    <Wrapper>
+                    <TextField variant="standard" label='Enter Username' />
+                    <TextField variant="standard" label='Enter Password'/>
 
-                   {error && <Error>{error}</Error>}
+                    {error && <Error>{error}</Error>}
 
-                   <LoginButton onClick={handleLogin} variant="contained">Login</LoginButton>
-                   <Text style={{textAlign:'center'}}>OR </Text>
-                   <SignupButton onClick={() => toggleSignup()}>Create an Account</SignupButton>
-                  </Wrapper>
-                :
-                <Wrapper>
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='name' label='Enter Name' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
-                            <Typography variant="body2" style={{ marginTop: 20 }}>Add profile picture</Typography>
-                            <input type="file" onChange={onFileChange} />
-                            {preview && <img src={preview} alt="Profile Preview" width="100" height="100" />}
-                            <SignupButton onClick={handleSignup}>Signup</SignupButton>
-                            <Text style={{ textAlign: 'center' }}>OR</Text>
-                            <LoginButton variant="contained" onClick={() => toggleSignup()} >Already have an account</LoginButton>
-                </Wrapper>
-               }
-            </Box>
-        </Component>
+                    <LoginButton onClick={handleLogin} variant="contained">Login</LoginButton>
+                    <Text style={{textAlign:'center'}}>OR </Text>
+                    <SignupButton onClick={() => toggleSignup()}>Create an Account</SignupButton>
+                    </Wrapper>
+                    :
+                    <Wrapper>
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='name' label='Enter Name' />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username' />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
+                                <Typography variant="body2" style={{ marginTop: 20 }}>Add profile picture</Typography>
+                                <input type="file" onChange={onFileChange} />
+                                {preview && <img src={preview} alt="Profile Preview" width="100" height="100" />}
+                                <SignupButton onClick={handleSignup}>Signup</SignupButton>
+                                <Text style={{ textAlign: 'center' }}>OR</Text>
+                                <LoginButton variant="contained" onClick={() => toggleSignup()} >Already have an account</LoginButton>
+                    </Wrapper>
+                }
+                </Box>
+            </Component>
+        </div>
     )
 }
 
