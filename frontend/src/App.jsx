@@ -5,6 +5,7 @@ import SingleBlog from './pages/SingleBlog'
 import Home from './pages/Home'
 import './App.css';
 import Login from './pages/Login';
+import CreateBlog from './pages/CreateBlog'
 
 function App() {
   
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Home/>}/>
         <Route exact path='/blog/:id' element={<SingleBlog/>}/>
+        <Route exact path='/create-blog' element={<CreateBlog/>}/>
         <Route exact path='/login' element={<Login/>}/>
       </Routes>
     </BrowserRouter>
