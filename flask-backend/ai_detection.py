@@ -65,5 +65,4 @@ def pred(st,model):
     final_preds = model.predict_proba(tf_test)[:,1]
     return final_preds[0]
 
-
-pred("Hello hello nice to meet you, the voice inside my head",ensemble)
+print(pred("Ever struggled with explaining complex topics to your readers? Say goodbye to those worries with our in-app blog assistant.", ensemble))
