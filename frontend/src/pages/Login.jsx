@@ -4,6 +4,7 @@ import { API } from '../sevice/Api';
 
 import { TextField, Box, Button, Typography, styled } from '@mui/material';
 import background from '../assets/background.png';
+import {useNavigate} from "react-router-dom";
 
 const bg2 = "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100";
 
@@ -63,23 +64,26 @@ const loginInitialValues = {
 };
 
 const signupInitialValues = {
-    name: '',
+    emailid: '',
     username: '',
     password: '',
     profilePhoto:''
 };
 
 const Login = () =>{
+    const navigate = useNavigate();
     const [signup, setSignup] = useState(signupInitialValues);
+    const [login, setLogin] = useState(loginInitialValues);
     const [account, toggleAccount] = useState('login');
     const [error, showError] = useState('');
     const [preview, setPreview] = useState(null);
-
+    const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
     const toggleSignup = () => {
         account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
     }
     const onInputChange = (e) => {
-        setSignup({ ...signup, [e.target.name]: e.target.value });
+        if(account === 'signup') setSignup({ ...signup, [e.target.name]: e.target.value });
+        else setLogin({ ...login, [e.target.name]: e.target.value })
     }
     const onFileChange = (e) => {
         const file = e.target.files[0];
@@ -88,32 +92,22 @@ const Login = () =>{
     };
     const handleSignup = async () => {
         const formData = new FormData();
-        formData.append('name', signup.name);
+        formData.append('emailid', signup.name);
         formData.append('username', signup.username);
         formData.append('password', signup.password);
-        formData.append('profilePhoto', signup.profilePhoto);
-
-        //Add Signup from backend and change onclick function (niche) also add photo vala section jase upr vale handleSignup me hai  
-        const signupUser = async () => {
-            let response = await API.userSignup(signup);
-            if (response.isSuccess) {
-                showError('');
-                setSignup(signupInitialValues);
-                toggleAccount('login');
-            } else {
-                showError('Something went wrong! please try again later');
-            }
-               
-        }
+        formData.append('profilePhoto', signup.profilePhoto);  
 
         try {
-            const response = await fetch('', {
+            const response = await fetch(`${SERVER_URL}/signup`, {
                 method: 'POST',
                 body: formData,
             });
+            console.log(response.ok);
             if (response.ok) {
                 const data = await response.json();
                 console.log('Signup successful:', data);
+                window.localStorage.setItem("token",data.token)
+                navigate("/")
             } else {
                 console.error('Signup failed');
             }
@@ -123,10 +117,21 @@ const Login = () =>{
     };
     //Add login from backend
     const handleLogin = async () => {
+        const formData = new FormData();
+        formData.append('username', login.username);
+        formData.append('password', login.password);
         try {
-            const response = await API.userLogin(login);
-            if (response.isSuccess) {
+            const response = await fetch(`${SERVER_URL}/login`, {
+                method: 'POST',
+                body: formData,
+            });
+            console.log(response.ok);
+            if (response.ok) {
                 showError('');
+                const data = await response.json();
+                console.log('Signup successful:', data);
+                window.localStorage.setItem("token",data.token)
+                navigate("/")
                 
             } else {
                 showError('Invalid username or password');
@@ -140,7 +145,7 @@ const Login = () =>{
         <div className='w-screen h-screen flex items-center'> 
             <div
                 style={{
-                    backgroundImage: `url(${bg2})`,
+                    backgroundImage: `url(${background})`,
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     filter: 'brightness(0.4)',
@@ -161,8 +166,8 @@ const Login = () =>{
                     {
                         account === 'login' ?
                     <Wrapper>
-                    <TextField variant="standard" label='Enter Username' />
-                    <TextField variant="standard" label='Enter Password'/>
+                    <TextField onChange={(e) => onInputChange(e)} name='username' variant="standard" label='Enter Username' />
+                    <TextField onChange={(e) => onInputChange(e)} name='password' variant="standard" label='Enter Password'/>
 
                     {error && <Error>{error}</Error>}
 
@@ -172,7 +177,7 @@ const Login = () =>{
                     </Wrapper>
                     :
                     <Wrapper>
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='name' label='Enter Name' />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} type='email' name='emailid' label='Enter Email' />
                                 <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username' />
                                 <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
                                 <Typography variant="body2" style={{ marginTop: 20 }}>Add profile picture</Typography>

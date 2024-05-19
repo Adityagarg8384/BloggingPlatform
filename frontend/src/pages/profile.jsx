@@ -4,13 +4,15 @@ import UserData from '../Components/UserData';
 import LikedBlog from '../Components/LikedBlog';
 import Userblog from '../Components/Userblog';
 import SavedBlog from '../Components/SavedBlog';
-
+import ResponsiveAppBar from '../Components/ResponsiveAppBar';
+import "../index.css";
 const Profile = () => {
     const { username } = useParams();
     const [loaded, setLoaded] = useState(null);
 
     return (
         <div className='flex flex-col bg-[#1d1e20] h-grow'>
+            <ResponsiveAppBar/>
             {loaded !== null ? (
                 <div className='flex justify-start items-start text-white h-full text-2xl '>Error in loading Profile page</div>
             ) : (
@@ -21,20 +23,20 @@ const Profile = () => {
                                 <img src="https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Placeholder Image" className="w-full h-full object-cover" />
                             </div>
                         </div>
-                        <div className='UserData flex justify-between items-start ml-36 w-2/4 h-72 bg-[#121317] rounded-lg'>
+                        <div className='UserData scrollbar flex justify-between items-start ml-36 w-2/4 h-72 bg-[#121317] rounded-lg'>
                             <UserData />
                         </div>
                     </div>
-                    <div className='Blogdetails flex flex-row justify-start mt-10 width-full'>
+                    <div className='Blogdetails  flex flex-row justify-start mt-10 width-full'>
                         <div className='flex flex-col items-center'>
-                            <div className='Userblog ml-20 w-96 mr-64 h-48 overflow-auto mb-12'>
+                            <div className='Userblog scrollbar ml-20 w-96 mr-64 h-48 overflow-auto mb-12 rounded-lg'>
                                 <LikedBlog />
                             </div>
-                            <div className='Savedblog ml-20 mb-12 w-96 mr-64 h-48 overflow-auto'>
+                            <div className='Savedblog scrollbar ml-20 mb-12 w-96 mr-64 h-48 overflow-auto rounded-lg'>
                                 <SavedBlog />
                             </div>
                         </div>
-                        <div className='Likedblog w-11/12 mr-64 h-96 overflow-auto'>
+                        <div className='Likedblog scrollbar w-11/12 mr-64 h-96 overflow-auto rounded-lg'>
                             <Userblog />
                         </div>
                     </div>
