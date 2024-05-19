@@ -1,4 +1,15 @@
 const UserSchema = require("../models/user");
+const path = require('path');
+
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+const cloudinary= require("cloudinary").v2;
+
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key:process.env.API_KEY,
+    api_secret:process.env.API_SECRET
+});
 
 const updateName = async (req, res) => {
     try {
@@ -70,30 +81,75 @@ const updateEmailId = async (req, res) => {
 
 const updateProfilePic = async (req, res) => {
     try {
+        
+        // const username = req.params.username;
+        // const newprofilepic = req.body.newprofilepic;
+
+        // if (!username) {
+        //     return res.status(400).json("Username is missing");
+        // }
+
+        // if (!newprofilepic) {
+        //     return res.status(400).json("Profile picture is missing");
+        // }
+
+        // const filter = { username: username };
+        // const update = { profilepic: newprofilepic };
+
+        // let doc = await UserSchema.findOneAndUpdate(filter, update, { new: true });
+
+        // if (!doc) {
+        //     return res.status(404).json("User not found");
+        // }
+
+        // return res.status(200).json({
+        //     success: true,
+        //     message: "Profile picture updated successfully",
+        // });
+
+        const files= req.files.photo;
+
+        if(!files){
+            return res.status(404).json("No file found");
+        }
+        var url=""
+        await cloudinary.uploader.upload(files.tempFilePath, (err, result)=>{
+            console.log(result);
+            console.log(result.url);
+            url= result.url;
+            console.log(url);
+            console.log("Hello world");
+            console.log(err);
+        })
+        console.log(url);
+        if(!url){
+            return res.status(404).json("Doesn't get url from backend");
+        }
+
         const username = req.params.username;
-        const newprofilepic = req.body.newprofilepic;
-
-        if (!username) {
-            return res.status(400).json("Username is missing");
-        }
-
-        if (!newprofilepic) {
-            return res.status(400).json("Profile picture is missing");
-        }
+        console.log(username);
 
         const filter = { username: username };
-        const update = { profilepic: newprofilepic };
+        const update = { profilepic: url };
+        let doc;
+        try{
+            doc = await UserSchema.findOneAndUpdate(filter, update, { new: true });
+        }
+        catch(err){
+            console.log(err);
+        }
+        console.log(doc);
 
-        let doc = await UserSchema.findOneAndUpdate(filter, update, { new: true });
-
-        if (!doc) {
-            return res.status(404).json("User not found");
+        if(!doc){
+            return res.status(404).json("error in updateing the schema");
         }
 
         return res.status(200).json({
-            success: true,
-            message: "Profile picture updated successfully",
+            success:true,
+            message:"Data has been updated successfully",
+            data:doc,
         });
+
     } catch (err) {
         console.error(err);
         return res.status(500).json("Error in updating profile picture");
