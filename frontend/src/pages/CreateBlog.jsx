@@ -80,17 +80,17 @@ function CreateBlog() {
                 <></>
         )}
         <div className="!h-max mt-32 lg:mt-10 ml-2">
-            <div className="mt-16 flex flex-row h-full  min-h-[800px] w-full !text-white">
+            <div className="mt-16 flex flex-row h-full items-center min-h-[800px] w-full !text-white">
                 <TipTap
-                setSubTitle={setSubTitle}
-                subtitle={subtitle}
-                setContent={setContent}
-                content={content}
-                heading={heading}
-                setHeading={setHeading}
-                thumbnail={thumbnail}
-                setThumbnail={setThumbnail}
-                success={success}
+                    setSubTitle={setSubTitle}
+                    subtitle={subtitle}
+                    setContent={setContent}
+                    content={content}
+                    heading={heading}
+                    setHeading={setHeading}
+                    thumbnail={thumbnail}
+                    setThumbnail={setThumbnail}
+                    success={success}
                 />
                 <div className="flex justify-center gap-7 w-full h-full">
                     <div
