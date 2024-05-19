@@ -92,7 +92,7 @@ const Login = () =>{
     };
     const handleSignup = async () => {
         const formData = new FormData();
-        formData.append('emailid', signup.name);
+        formData.append('emailid', signup.emailid);
         formData.append('username', signup.username);
         formData.append('password', signup.password);
         formData.append('profilePhoto', signup.profilePhoto);  
