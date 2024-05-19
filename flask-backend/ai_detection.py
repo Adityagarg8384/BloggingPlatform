@@ -29,7 +29,6 @@ def pred(st,model):
     special_tokens = ["[UNK]", "[PAD]", "[CLS]", "[SEP]", "[MASK]"]
     trainer = trainers.BpeTrainer(vocab_size=VOCAB_SIZE, special_tokens=special_tokens)
     raw_tokenizer = pickle.load(open("./models/raw_vectorizer.pk", 'rb'))
-    print("3")
     tokenizer = PreTrainedTokenizerFast(
         tokenizer_object=raw_tokenizer,
         unk_token="[UNK]",
