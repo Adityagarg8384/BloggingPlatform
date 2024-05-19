@@ -1,6 +1,9 @@
+// const { ObjectId } = require("mongodb");
+const  mongoose = require("mongoose");
 const BlogSchema = require("../models/blog");
 const UserSchema = require("../models/user");
 const jwt = require("jsonwebtoken");
+var ObjectId = require('mongodb').ObjectId;
 
 const createblog = async (req, res) => {
     try {
@@ -76,10 +79,14 @@ const getallblog = async (req, res) => {
 
 const getblog = async (req, res) => {
     try {
-        const { _id } = req.params; // Extract id from request parameters
+        const {_id} = req.body; // Extract id from request parameters
+        console.log(req.body);
+        // var id=  new mongoose.Types.ObjectId(_id);
+        console.log(_id);
+        console.log(typeof(_id));
 
         // Find the blog by its id
-        const blog = await BlogSchema.findById(_id);
+        const blog = await BlogSchema.findById({_id});
 
         if (!blog) {
             return res.status(404).json({ success: false, message: "Blog not found" });

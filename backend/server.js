@@ -4,6 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const router = require("./router/router");
 const dbconnect = require("./config/database");
+const fileUpload = require("express-fileupload");
 
 dbconnect();
 
@@ -15,7 +16,11 @@ const corsOptions = {
 // Use middlewares
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use(cookieParser()); 
+app.use(cookieParser());
+app.use(fileUpload({
+    useTempFiles: true,
+}));
+
 
 
 app.use("/", router);

@@ -14,7 +14,7 @@ router.post("/logout", logout);
 
 router.put("/updatename/:username", updateName);
 router.put("/updateEmailId/:username", updateEmailId);
-router.put("/updateProfilePic/:username", updateProfilePic);
+router.put("/updateprofilepic/:username", updateProfilePic);
 router.put("/updateAge/:username", updateAge);
 
 router.get("/getuser/:username", getuser);
@@ -22,7 +22,7 @@ router.get("/getuser/:username", getuser);
 router.post("/createblog", createblog);
 router.get("/getallblog", getallblog)
 router.post("/likedblog", likedblog);
-router.get("/getblog/:_id", getblog);
+router.get("/getblog", getblog);
 
 router.post("/createcomment", createcomment);
 
