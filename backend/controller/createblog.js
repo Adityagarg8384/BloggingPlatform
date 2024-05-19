@@ -7,7 +7,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 const createblog = async (req, res) => {
     try {
-        const { title, data, tags } = req.body;
+        const { title,subtitle, data, tags } = req.body;
         const token = req.cookies.token;
 
         if (!token) {
@@ -36,7 +36,7 @@ const createblog = async (req, res) => {
             return res.status(400).json("Data is needed");
         }
 
-        const newBlog = await BlogSchema.create({ username, title, data, tags });
+        const newBlog = await BlogSchema.create({ username, title,subtitle, data, tags });
 
         const nuser = await UserSchema.findOneAndUpdate(
             { _id: user._id },
