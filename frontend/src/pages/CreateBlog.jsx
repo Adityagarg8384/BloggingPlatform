@@ -44,8 +44,8 @@ function CreateBlog() {
             thumbnail,
         };
         // if (blog_id) blogData.blog_id = blog_id;
-        const token = localStorage.getItem("jwt");
-        const response = await fetch(`${SERVER_URL}/`, {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${SERVER_URL}/createblog`, {
             method: "POST",
             headers: {
                 Authorization: token, // include JWT in the request header
@@ -94,7 +94,7 @@ function CreateBlog() {
                 />
                 <div className="flex justify-center gap-7 w-full h-full">
                     <div
-                        className="!w-[97%] min-h-[800px] !h-full m-10 !text-black sm:mx-0  prose-h1:font-sans rounded-xl shadow-[0_0_60px_20px_rgb(0,0,0,0.22)] p-10 pt-2 prose prose-stone prose-headings:!text-black dark:prose-invert lg:prose-xl prose-img:mx-auto prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-400 editor-output"
+                        className="!w-[97%] min-h-[800px] !h-full m-10 !text-black sm:mx-0  prose-h1:font-sans rounded-xl shadow-[0_0_60px_20px_rgb(0,0,0,0.22)] p-10 pt-2 prose prose-stone prose-headings:!text-black lg:prose-xl prose-img:mx-auto prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-400 editor-output"
                         dangerouslySetInnerHTML={{
                             __html: DOMPurify.sanitize(
                                 `<h1>${heading}</h1>` + `<h3>${subtitle}</h3>` + `<img src="${thumbnail}" />` + content

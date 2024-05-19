@@ -6,7 +6,7 @@ const SavedBlog = () => {
 
     return (
       <div className='bg-[#121317] flex flex-col min-h-28'>
-        <div className='bg-[#121317] text-white p-3 text-center text-lg'>
+        <div className='bg-[rgb(25,118,210)] text-white p-3 text-center text-lg'>
           <h1>Saved Blogs</h1>
         </div>
         {
