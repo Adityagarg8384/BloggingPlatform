@@ -8,16 +8,20 @@ import { BiLike,BiSolidLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
 import { MdOutlineBookmarkAdd,MdBookmarkAdded,MdOutlineIosShare } from "react-icons/md";
 import Assistant from '../Components/Assistant';
+import DOMPurify from "dompurify";
+
 const SingleBlog = () => {
+    const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
     const [blog,setBlog] = useState(null);
     const [assistantState,setAssistantState] = useState(false);
     const {id} = useParams();
     useEffect(()=>{
-        axios.get(`http://localhost/${id}`).then(resp => {
-            setBlog(resp.data);
+        axios.get(`${SERVER_URL}/getblog/${id}`).then(resp => {
+            console.log(resp.data.data)
+            setBlog(resp.data.data);
         })
     },[]);
-  return (
+  return ( 
     <div>
         <ResponsiveAppBar/>
         <Assistant setState={setAssistantState} state={assistantState}/>
@@ -41,7 +45,7 @@ const SingleBlog = () => {
                             : <div className='w-14 h-14 bg-black rounded-full'/>
                         }
                         <div className='w-[calc(100%-14)] h-full flex flex-col'>
-                            <Typography variant='h6'> {blog && blog.user && blog.user.name ? blog.user.name : "Username"} </Typography>
+                            <Typography variant='h6'> {blog  && blog.username ? blog.username : "Username"} </Typography>
                             <Typography sx={{color:"grey.600"}}>6 mins read | Published on {blog && blog.date ? blog.date : "18 May 2024"}</Typography>
                         </div>
                     </div>
@@ -50,12 +54,12 @@ const SingleBlog = () => {
                         <div className='flex gap-x-5 items-center'>
                             <Button sx={{color:"black",columnGap:1}} >
                                 <BiLike size={20}/>
-                                {blog && blog.likes ? blog.likes : 10}
+                                {blog && (blog.like !== undefined && blog.like !== null)  ? blog.like : 10}
                             </Button> 
                             
                             <Button sx={{color:"black",columnGap:1}}>
                                 <FaRegComment size={20}/>
-                                {blog && blog.comments ? blog.comments : 2}
+                                {blog && blog.comments ? blog.comments.length : 2}
                             </Button> 
                             
                         </div>
@@ -71,6 +75,22 @@ const SingleBlog = () => {
                         </div>
                     </div>
                     <hr/>
+                    <div
+                        className="w-full h-full m-10 !text-black sm:mx-0 prose-h1:font-sans prose prose-stone prose-headings:!text-black lg:prose-xl prose-img:mx-auto prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-400 editor-output"
+                        dangerouslySetInnerHTML={blog.thumbnail ? 
+                            {
+                                __html: DOMPurify.sanitize(
+                                    `<img src="${blog.thumbnail}" />` + 
+                                    blog.data
+                                ),
+                            } :
+                            {
+                                __html: DOMPurify.sanitize(
+                                    blog.data
+                                ),
+                            }
+                        }
+                    ></div>
                 </Container>
                 :
                 <SkeletonBlog/> 

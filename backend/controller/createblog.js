@@ -79,14 +79,13 @@ const getallblog = async (req, res) => {
 
 const getblog = async (req, res) => {
     try {
-        const {_id} = req.body; // Extract id from request parameters
-        console.log(req.body);
         // var id=  new mongoose.Types.ObjectId(_id);
-        console.log(_id);
-        console.log(typeof(_id));
+        const {id} = req.params;
+        // console.log(id);
+        // console.log(typeof(id));
 
         // Find the blog by its id
-        const blog = await BlogSchema.findById({_id});
+        const blog = await BlogSchema.findById(id);
 
         if (!blog) {
             return res.status(404).json({ success: false, message: "Blog not found" });

@@ -22,7 +22,7 @@ router.get("/getuser/:username", getuser);
 router.post("/createblog", createblog);
 router.get("/getallblog", getallblog)
 router.post("/likedblog", likedblog);
-router.get("/getblog", getblog);
+router.get("/getblog/:id", getblog);
 
 router.post("/createcomment", createcomment);
 
