@@ -17,7 +17,7 @@ router.put("/updateEmailId/:username", updateEmailId);
 router.put("/updateprofilepic/:username", updateProfilePic);
 router.put("/updateAge/:username", updateAge);
 
-router.get("/getuser/:username", getuser);
+router.get("/getuser", getuser);
 
 router.post("/createblog", createblog);
 router.get("/getallblog", getallblog)

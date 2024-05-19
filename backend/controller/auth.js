@@ -34,7 +34,7 @@ const signup = async (req, res) => {
             { id: user._id, username },
             'your-strong-secret-key', // Use a strong secret key
             {
-                expiresIn: "2h",
+                expiresIn: "24h",
             }
         );
 
@@ -90,7 +90,7 @@ const login = async (req, res) => {
             { id: user._id, username },
             'your-strong-secret-key', // Use a strong secret key
             {
-                expiresIn: "2h",
+                expiresIn: "24h",
             }
         );
 
