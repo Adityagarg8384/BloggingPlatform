@@ -9,12 +9,12 @@ const UserData = ({data}) => {
     const [rating, setRating] = useState(4); // Replace with the actual rating value
 
     const renderStars = () => {
-        console.log(typeof(rating));
+        // console.log(typeof(rating));
         const stars = [];
-        console.log(rating)
+        // console.log(rating)
         for (let i = 1; i <= 5; i++) {
             if (i <= Math.floor(rating)) {
-                console.log(Math.floor(rating));
+                // console.log(Math.floor(rating));
                 stars.push(<FontAwesomeIcon key={i} icon={solidStar} className="text-yellow-400" />);
             } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
                 stars.push(<FontAwesomeIcon key={i} icon={faStarHalfAlt} className="text-yellow-400" />);

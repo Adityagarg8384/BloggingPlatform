@@ -1,3 +1,4 @@
+const BlogSchema = require("../models/blog");
 const UserSchema = require("../models/user");
 const jwt = require("jsonwebtoken");
 
@@ -5,7 +6,7 @@ const savedblog = async (req, res) => {
     try {
         const { _id } = req.body; // Extract _id from request body
 
-        const token = req.cookies.token;
+        const token = req.headers.authorization;
 
         if (!token) {
             return res.status(401).json("Login first");
@@ -28,9 +29,10 @@ const savedblog = async (req, res) => {
             return res.status(400).json("You have already saved this blog");
         }
 
-        // Check if _id is a valid ObjectId
-        if (!isValidObjectId(_id)) {
-            return res.status(400).json("Invalid blog ID");
+        const blog = await BlogSchema.findById(_id);
+
+        if(!blog){
+            return res.status(400).json("No such blog exists");
         }
 
         const updateUser = await UserSchema.findByIdAndUpdate(

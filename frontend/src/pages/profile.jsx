@@ -47,10 +47,10 @@ const Profile = () => {
                     <div className='Blogdetails flex max-lg:flex-col justify-center mt-10 w-full'>
                         <div className='w-1/2 gap-10 max-lg:w-full flex flex-col items-center justify-center'>
                             <div className='w-3/4 Userblog scrollbar h-48 overflow-auto rounded-lg'>
-                                <LikedBlog data={profile.likedlog}/>
+                                <LikedBlog data={profile.likedblog}/>
                             </div>
                             <div className='Savedblog w-3/4 scrollbar h-48 overflow-auto rounded-lg'>
-                                <SavedBlog data={profile.savedblog} />
+                                <SavedBlog data={profile.saveblog} />
                             </div>
                         </div>
                         <div className='scrollbar w-1/2 gap-10 max-lg:w-full flex flex-col items-center justify-center rounded-lg'>
