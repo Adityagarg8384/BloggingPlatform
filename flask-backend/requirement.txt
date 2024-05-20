@@ -1,3 +1,8 @@
+tokenizers
+scikit-learn
+transformers
+datasets
+lightgbm
 absl-py==2.1.0
 aiohttp==3.9.5
 aiosignal==1.3.1
@@ -15,11 +20,14 @@ datasets==2.19.1
 dill==0.3.8
 filelock==3.14.0
 Flask==3.0.3
-Flask-Cors==4.0.1
+Flask-Cors
+pandas
 flatbuffers==24.3.25
 frozenlist==1.4.1
 fsspec==2024.3.1
 gast==0.4.0
+google.generativeai
+google
 google-ai-generativelanguage==0.6.4
 google-api-core==2.19.0
 google-api-python-client==2.129.0
