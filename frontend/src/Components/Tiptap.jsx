@@ -229,16 +229,16 @@ const TipTap = ({
 
   return (
     <div className="w-full h-full bg-white  flex flex-col justify-center ">
-      <div class="mb-6 flex flex-col justify-center gap-4">
+      <div className="mb-6 flex flex-col justify-center gap-4">
         <label
           for="large-input"
-          class="block mb-2 text-sm font-medium text-gray-900 "
+          className="block mb-2 text-sm font-medium text-gray-900 "
         ></label>
         <input
           type="text"
           placeholder="Title"
           id="large-input"
-          class="block w-full p-4 text-black border border-gray-300 rounded-sm bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 break-all"
+          className="block w-full p-4 text-black border border-gray-300 rounded-sm bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 break-all"
           value={heading}
           onChange={(e) => {
             setHeading(e.target.value);
@@ -248,7 +248,7 @@ const TipTap = ({
           type="text"
           placeholder="Sub-Title"
           id="large-input"
-          class="block w-full p-4 text-black border border-gray-300 rounded-sm bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 break-all"
+          className="block w-full p-4 text-black border border-gray-300 rounded-sm bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 break-all"
           value={subtitle}
           onChange={(e) => {
             setSubTitle(e.target.value);
@@ -258,7 +258,7 @@ const TipTap = ({
           type="text"
           placeholder="Thumbnail URL"
           id="large-input"
-          class="block w-full p-4 text-black border border-gray-300 rounded-sm bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 break-all"
+          class="block w-full p-4 text-black border border-gray-300 rounded-sm bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500  break-all"
           value={thumbnail}
           onChange={(e) => {
             setThumbnail(e.target.value);
