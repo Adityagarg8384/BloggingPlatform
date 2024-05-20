@@ -7,6 +7,7 @@ import './App.css';
 import Login from './pages/Login';
 import CreateBlog from './pages/CreateBlog'
 import Profile from './pages/profile'
+import Catalogue from './pages/Catalogue'
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
         <Route exact path='/create-blog' element={<CreateBlog/>}/>
         <Route exact path='/login' element={<Login/>}/>
         <Route exact path='/profile' element={<Profile/>}/>
+        <Route exact path="/blogs" element={<Catalogue/>}/>
       </Routes>
     </BrowserRouter>
   )
