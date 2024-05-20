@@ -65,7 +65,7 @@ function CreateBlog() {
             }
         }
 
-        const secondresponse = await fetch("http://127.0.0.1:5000/", {
+        const secondresponse = await fetch("http://127.0.0.1:5000/classify_ai_text", {
             method:'POST',
             headers: {
                 Authorization: "Bearer your-jwt-token", // include JWT in the request header
@@ -74,15 +74,12 @@ function CreateBlog() {
             body: JSON.stringify({ text:content}),
         })
 
-        if (!secondresponse.ok) {
-            throw new Error('Network response was not ok');
-        }
+        const res = await secondresponse.json();
 
-        const res = await response.json();
-
-        setProb(res.probability_of_ai_text);
+        setProb(res.data.probability_of_ai_text);
     }
-  return (
+
+    return (
     <>
         <ResponsiveAppBar/>
         {
