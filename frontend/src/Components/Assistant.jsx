@@ -33,7 +33,7 @@ const Assistant = ({ state, setState }) => {
                 console.log(res)
                 let arr2 = data;
                 arr2.splice(0,0,{message:res.response,sentBy:"ai"})
-                setData(arr2);
+                setData(arr2); 
                 console.log(data)  
                 setError(''); // Clear any previous error
             } catch (err) {
@@ -48,7 +48,7 @@ const Assistant = ({ state, setState }) => {
 
     return (
         <div>
-            <div className={`bg-red-400 text-xl fixed right-10 bottom-10 rounded-lg duration-200 ease-in-out flex justify-between items-start z-10 ${state ? "w-[30%] h-[80%]" : 'w-[0%] h-[0%]'}`}>
+            <div className={`bg-red-400 text-xl fixed right-10 bottom-10 rounded-lg duration-200 ease-in-out flex justify-between items-start z-15 ${state ? "w-[30%] h-[80%]" : 'w-[0%] h-[0%]'}`}>
                 {state && (
                     <div className='flex flex-col h-full w-full'>
                         <div className='flex flex-row justify-between items-center text-lg bg-[#1d1e20] text-white w-full p-4'>
