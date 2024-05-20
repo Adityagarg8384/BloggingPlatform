@@ -35,10 +35,13 @@ const Catalogue = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredData.map((item, index) => (
           <BoxCard 
-            key={index}
-            title={item.title}
-            description={item.description}
-            image={item.image}
+          key={index}
+          name={item.name}
+          content={item.content}
+          image={item.image}
+          date={item.date}
+          likes={item.likes}
+          comments={item.comments}
           />
         ))}
       </div>
