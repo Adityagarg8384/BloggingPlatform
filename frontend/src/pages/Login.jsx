@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-
-import { API } from '../sevice/Api';
-
+import React, { useState } from 'react';
 import { TextField, Box, Button, Typography, styled } from '@mui/material';
 import background from '../assets/background.png';
-import {useNavigate} from "react-router-dom";
-
-const bg2 = "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100";
+import { useNavigate } from 'react-router-dom';
 
 const Component = styled(Box)`
     width: 400px;
     margin: auto;
     box-shadow: 5px 2px 5px 2px rgb(0 0 0/ 0.6);
+    backdrop-filter: blur(3px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.5); /* Set the background to a semi-transparent white */
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
 `;
 
 const Image = styled('img')({
@@ -31,6 +30,7 @@ const Wrapper = styled(Box)`
         margin-top: 20px;
     }
 `;
+
 const LoginButton = styled(Button)`
     text-transform: none;
     background: #ff0000;
@@ -38,6 +38,7 @@ const LoginButton = styled(Button)`
     height: 48px;
     border-radius: 2px;
 `;
+
 const SignupButton = styled(Button)`
     text-transform: none;
     background: #fff;
@@ -46,6 +47,7 @@ const SignupButton = styled(Button)`
     border-radius: 2px;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
 `;
+
 const Text = styled(Typography)`
     color: #878787;
     font-size: 12px;
@@ -57,7 +59,8 @@ const Error = styled(Typography)`
     line-height: 0;
     margin-top: 10px;
     font-weight: 600;
-`
+`;
+
 const loginInitialValues = {
     username: '',
     password: ''
@@ -67,10 +70,10 @@ const signupInitialValues = {
     emailid: '',
     username: '',
     password: '',
-    profilePhoto:''
+    profilePhoto: ''
 };
 
-const Login = () =>{
+const Login = () => {
     const navigate = useNavigate();
     const [signup, setSignup] = useState(signupInitialValues);
     const [login, setLogin] = useState(loginInitialValues);
@@ -78,36 +81,38 @@ const Login = () =>{
     const [error, showError] = useState('');
     const [preview, setPreview] = useState(null);
     const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
+
     const toggleSignup = () => {
         account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
-    }
+    };
+
     const onInputChange = (e) => {
-        if(account === 'signup') setSignup({ ...signup, [e.target.name]: e.target.value });
-        else setLogin({ ...login, [e.target.name]: e.target.value })
-    }
+        if (account === 'signup') setSignup({ ...signup, [e.target.name]: e.target.value });
+        else setLogin({ ...login, [e.target.name]: e.target.value });
+    };
+
     const onFileChange = (e) => {
         const file = e.target.files[0];
         setSignup({ ...signup, profilePhoto: file });
         setPreview(URL.createObjectURL(file));
     };
+
     const handleSignup = async () => {
         const formData = new FormData();
         formData.append('emailid', signup.emailid);
         formData.append('username', signup.username);
         formData.append('password', signup.password);
-        formData.append('profilePhoto', signup.profilePhoto);  
+        formData.append('profilePhoto', signup.profilePhoto);
 
         try {
             const response = await fetch(`${SERVER_URL}/signup`, {
                 method: 'POST',
                 body: formData,
             });
-            console.log(response.ok);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Signup successful:', data);
-                window.localStorage.setItem("token",data.token)
-                navigate("/")
+                window.localStorage.setItem("token", data.token);
+                navigate("/");
             } else {
                 console.error('Signup failed');
             }
@@ -115,7 +120,7 @@ const Login = () =>{
             console.error('Error during signup:', error);
         }
     };
-    //Add login from backend
+
     const handleLogin = async () => {
         const formData = new FormData();
         formData.append('username', login.username);
@@ -125,14 +130,11 @@ const Login = () =>{
                 method: 'POST',
                 body: formData,
             });
-            console.log(response.ok);
             if (response.ok) {
                 showError('');
                 const data = await response.json();
-                console.log('Signup successful:', data);
-                window.localStorage.setItem("token",data.token)
-                navigate("/")
-                
+                window.localStorage.setItem("token", data.token);
+                navigate("/");
             } else {
                 showError('Invalid username or password');
             }
@@ -140,43 +142,37 @@ const Login = () =>{
             showError('Error during login! Please try again later');
         }
     };
-    
-    return(
-        <div className='w-screen h-screen flex items-center'> 
+
+    return (
+        <div className='w-screen h-screen flex items-center'>
             <div
                 style={{
                     backgroundImage: `url(${background})`,
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     filter: 'brightness(0.4)',
-                    zIndex : -1
+                    zIndex: -1
                 }}
                 className="absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center"
             >
             </div>
-            <Component sx={{
-                backdropFilter: 'blur(3px) saturate(180%)',
-                bgColor: "rgba(255, 255, 255, 0.46)",
-                borderRadius: "12px",
-                border: "1px solid rgba(255, 255, 255, 0.125)"
-            }}>
-                
+            <Component>
                 <Box>
                     <Image src='https://cdn.logojoy.com/wp-content/uploads/2018/05/30164213/375.png' alt="login" />
                     {
                         account === 'login' ?
-                    <Wrapper>
-                    <TextField onChange={(e) => onInputChange(e)} name='username' variant="standard" label='Enter Username'/>
-                    <TextField onChange={(e) => onInputChange(e)} name='password' variant="standard" label='Enter Password'/>
+                            <Wrapper>
+                                <TextField onChange={(e) => onInputChange(e)} name='username' variant="standard" label='Enter Username' />
+                                <TextField onChange={(e) => onInputChange(e)} name='password' variant="standard" label='Enter Password' />
 
-                    {error && <Error>{error}</Error>}
+                                {error && <Error>{error}</Error>}
 
-                    <LoginButton onClick={handleLogin} variant="contained">Login</LoginButton>
-                    <Text style={{textAlign:'center'}}>OR </Text>
-                    <SignupButton onClick={() => toggleSignup()}>Create an Account</SignupButton>
-                    </Wrapper>
-                    :
-                    <Wrapper>
+                                <LoginButton onClick={handleLogin} variant="contained">Login</LoginButton>
+                                <Text style={{ textAlign: 'center' }}>OR </Text>
+                                <SignupButton onClick={() => toggleSignup()}>Create an Account</SignupButton>
+                            </Wrapper>
+                            :
+                            <Wrapper>
                                 <TextField variant="standard" onChange={(e) => onInputChange(e)} type='email' name='emailid' label='Enter Email' />
                                 <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username' />
                                 <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
@@ -186,8 +182,8 @@ const Login = () =>{
                                 <SignupButton onClick={handleSignup}>Signup</SignupButton>
                                 <Text style={{ textAlign: 'center' }}>OR</Text>
                                 <LoginButton variant="contained" onClick={() => toggleSignup()} >Already have an account</LoginButton>
-                    </Wrapper>
-                }
+                            </Wrapper>
+                    }
                 </Box>
             </Component>
         </div>
