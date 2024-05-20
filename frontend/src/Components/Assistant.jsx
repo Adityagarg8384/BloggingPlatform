@@ -9,14 +9,20 @@ const Assistant = ({ state, setState }) => {
 
     const handleSubmit = async () => {
         if (message.trim() !== '') {
+            let arr = data;
+            arr.splice(0,0,{message,sentBy:"user"})
+            // console.log(arr);    
+            setData(arr);
+            setMessage('');
             try {
+                
                 const response = await fetch("http://127.0.0.1:5000/blog_assistant", {
                     method: "POST",
                     headers: {
                         Authorization: "Bearer your-jwt-token", // include JWT in the request header
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ message }), // Make sure to wrap message in an object
+                    body: JSON.stringify({ query : message }), // Make sure to wrap message in an object
                 });
 
                 if (!response.ok) {
@@ -24,8 +30,10 @@ const Assistant = ({ state, setState }) => {
                 }
 
                 const res = await response.json();
-                setData([...data, message, res.response]);
-                setMessage('');
+                let arr2 = data;
+                arr2.splice(0,0,{message:res.response,sentBy:"ai"})
+                setData(arr2);
+                
                 setError(''); // Clear any previous error
             } catch (err) {
                 console.error('Fetch error:', err);
@@ -46,17 +54,17 @@ const Assistant = ({ state, setState }) => {
                             <div>Assistant</div>
                             <button onClick={() => setState(!state)}><IoMdCloseCircleOutline size={25} /></button>
                         </div>
-                        <div className='flex-grow bg-[#121317] overflow-auto flex flex-col-reverse'>
+                        <div className='flex-grow bg-[#121317] overflow-auto flex flex-col-reverse justify-start p-2 gap-y-2'>
                             {data.length > 0 ? (
                                 data.map((msg, index) => (
-                                    <div key={index} className='flex flex-row justify-end m-4'>
+                                    <div key={index} className={`flex flex-row ${msg.sentBy === "user" ? "justify-end" : "justify-start"}`}>
                                         <div className='text-white bg-[#303135] px-4 py-2 rounded-3xl'>
-                                            {msg}
+                                            {msg.message}
                                         </div>
                                     </div>
                                 ))
                             ) : (
-                                <div className='flex flex-row justify-center m-4'>
+                                <div className='flex flex-row justify-center '>
                                     <div className='text-white bg-[#303135] px-4 py-2 rounded-3xl'>
                                         No messages yet
                                     </div>
