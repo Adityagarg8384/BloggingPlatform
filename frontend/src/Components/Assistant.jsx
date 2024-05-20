@@ -16,7 +16,7 @@ const Assistant = ({ state, setState }) => {
             setMessage('');
             try {
                 
-                const response = await fetch("http://127.0.0.1:5000/blog_assistant", {
+                const response = await fetch("https://bloggingplatform-ww52.onrender.com/blog_assistant", {
                     method: "POST",
                     headers: {
                         Authorization: "Bearer your-jwt-token", // include JWT in the request header
