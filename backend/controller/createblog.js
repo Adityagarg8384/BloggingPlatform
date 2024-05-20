@@ -7,7 +7,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 const createblog = async (req, res) => {
     try {
-        const { title,subtitle, data, tags } = req.body;
+        const { title,subtitle, data, tags,thumbnail } = req.body;
         const token = req.headers.authorization;
 
         if (!token) {
@@ -36,7 +36,7 @@ const createblog = async (req, res) => {
             return res.status(400).json("Data is needed");
         }
 
-        const newBlog = await BlogSchema.create({ username, title,subtitle, data, tags });
+        const newBlog = await BlogSchema.create({ username, title,subtitle, data, tags,thumbnail });
 
         const nuser = await UserSchema.findOneAndUpdate(
             { _id: user._id },
@@ -79,19 +79,29 @@ const getallblog = async (req, res) => {
 
 const getblog = async (req, res) => {
     try {
-        // var id=  new mongoose.Types.ObjectId(_id);
         const {id} = req.params;
-        // console.log(id);
-        // console.log(typeof(id));
+        const token = req.headers.authorization;
+        var saved = false,liked = false;
 
-        // Find the blog by its id
         const blog = await BlogSchema.findById(id);
 
         if (!blog) {
             return res.status(404).json({ success: false, message: "Blog not found" });
         }
+        if (token) {
+            const decode = jwt.verify(token, process.env.JWT_SECRET_KEY || 'your-strong-secret-key');
+            if(decode){
+                const user = await UserSchema.findById(decode.id);
+                if(user.likedblog.includes(blog._id)){
+                    liked = true;
+                }
+                if(user.saveblog.includes(blog._id)){
+                    saved = true;
+                }
+            }
+        }
 
-        return res.status(200).json({ success: true, data: blog });
+        return res.status(200).json({ success: true, data: {blog,liked,saved} });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ success: false, message: "Error occurred while getting the blog" });
@@ -103,57 +113,57 @@ const getblog = async (req, res) => {
 
 const likedblog = async (req, res) => {
     try {
-        const { _id } = req.body;
-        const token = req.cookies.token;
+        const { _id } = req.body; // Extract _id from request body
+        const token = req.headers.authorization;
 
         if (!token) {
             return res.status(401).json("Login first");
         }
 
         const decode = jwt.verify(token, process.env.JWT_SECRET_KEY || 'your-strong-secret-key');
-        
+
         if (!decode) {
             return res.status(401).send("Unauthorized");
         }
 
         const user = await UserSchema.findById(decode.id);
-        
+
         if (!user) {
-            return res.status(404).json("User not found");
+            return res.status(404).json("Error in user");
         }
 
-        const username = user.username;
-
-        // Check if the user has already liked the blog
         const blog = await BlogSchema.findById(_id);
-        
-        if (!blog) {
-            return res.status(404).json("Blog not found");
-        }
 
-        if (blog.likeuser.includes(username)) {
-            return res.status(400).json("You have already liked this blog");
-        }
-
-        const updatedBlog = await BlogSchema.findByIdAndUpdate(
-            _id,
-            { 
-                $inc: { like: 1 },
-                $push: { likeuser: username }
-            },
-            { new: true },
-        );
-
-        const updateUser = await UserSchema.findByIdAndUpdate(
-            user._id,
-            { $push: { likedblog: _id } },
-            { new: true }
-        );
-
-        if (!updatedBlog) {
-            return res.status(404).json("Blog not found");
+        if(!blog){
+            return res.status(400).json("No such blog exists");
         }
         
+        if (user.likedblog.includes(_id)) {
+            let arr = user.likedblog.filter((el, ind) => el != _id);
+            await UserSchema.findByIdAndUpdate(
+                user._id,
+                {likedblog : arr},
+                { new: true }
+            );
+            let usarr = blog.likeuser.filter((el,ind) => el != user._id);
+            await BlogSchema.findByIdAndUpdate(
+                blog._id,
+                {likeuser : usarr,like : blog.like-1},
+                { new: true }
+            );
+        }
+        else{
+            await UserSchema.findByIdAndUpdate(
+                user._id,
+                { $push: { likedblog: _id } },
+                { new: true }
+            );
+            await BlogSchema.findByIdAndUpdate(
+                blog._id,
+                { $push: { likeuser : user._id },like : blog.like+1 },
+                { new: true }
+            );
+        }
         return res.status(200).json("Like is successful");
     } catch (err) {
         console.error(err);

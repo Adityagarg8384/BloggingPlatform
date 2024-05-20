@@ -13,6 +13,10 @@ const blogSchema= mongoose.Schema({
         type:String,
         required:true,
     },
+    thumbnail:{
+        type : String,
+        required : false
+    },
     data:{
         type:String,
         required:true,
@@ -26,6 +30,9 @@ const blogSchema= mongoose.Schema({
         default:0,
     },
     likeuser:[{
+        type:String,
+    }],
+    saveuser : [{
         type:String,
     }],
     comments:[{
