@@ -17,7 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const pages = [
   { name: 'Home', to: '/' },
   { name: 'Create blog', to: '/create-blog' },
-  { name: 'Blogs', to: '' }
+  { name: 'Blogs', to: '/blogs' }
 ];
 const settings = [
   { name: 'Profile', to: '/profile' },
