@@ -86,7 +86,7 @@ function CreateBlog() {
             )}
         
             <div className="container mx-auto mt-32 lg:mt-10 px-4">
-                <div className="mt-16 flex flex-col lg:flex-row items-center min-h-[800px] w-full text-white">
+                <div className="mt-16 flex flex-col lg:flex-row items-center min-h-[800px] w-full text-black">
                     <TipTap
                         setSubTitle={setSubTitle}
                         subtitle={subtitle}
