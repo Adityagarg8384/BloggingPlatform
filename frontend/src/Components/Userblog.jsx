@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import empty from "../assets/empty.png"
+import{Link} from "react-router-dom";
 
 const Userblog = ({data}) => {
     
@@ -13,9 +14,9 @@ const Userblog = ({data}) => {
           <div className='flex flex-col '>
             {
               data.map((item, index) => (
-                  <div key={index} className='text-white text-center hover:bg-[#303135] p-2 py-4'>
+                  <Link to={`/blog/${item._id}`} key={index} className='text-white text-center hover:bg-[#303135] p-2 py-4'>
                       {item.title}
-                  </div>
+                  </Link>
               ))
             }
           </div> 

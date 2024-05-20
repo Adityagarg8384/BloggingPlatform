@@ -1,3 +1,4 @@
+const BlogSchema = require("../models/blog");
 const UserSchema = require("../models/user");
 const jwt = require("jsonwebtoken");
 
@@ -5,7 +6,7 @@ const savedblog = async (req, res) => {
     try {
         const { _id } = req.body; // Extract _id from request body
 
-        const token = req.cookies.token;
+        const token = req.headers.authorization;
 
         if (!token) {
             return res.status(401).json("Login first");
@@ -23,29 +24,42 @@ const savedblog = async (req, res) => {
             return res.status(404).json("Error in user");
         }
 
-        // Check if the blog already exists in saveblog array
+        const blog = await BlogSchema.findById(_id);
+
+        if(!blog){
+            return res.status(400).json("No such blog exists");
+        }
+        
         if (user.saveblog.includes(_id)) {
-            return res.status(400).json("You have already saved this blog");
+            let arr = user.saveblog.filter((el, ind) => el != _id);
+            await UserSchema.findByIdAndUpdate(
+                user._id,
+                {saveblog : arr},
+                { new: true }
+            );
+            let usarr = blog.saveuser.filter((el,ind) => el != user._id);
+            await BlogSchema.findByIdAndUpdate(
+                blog._id,
+                {saveuser : usarr},
+                { new: true }
+            );
         }
-
-        // Check if _id is a valid ObjectId
-        if (!isValidObjectId(_id)) {
-            return res.status(400).json("Invalid blog ID");
-        }
-
-        const updateUser = await UserSchema.findByIdAndUpdate(
-            user._id,
-            { $push: { saveblog: _id } },
-            { new: true }
-        );
-
-        if (!updateUser) {
-            return res.status(404).json("UserSchema cannot be updated");
+        else{
+            await UserSchema.findByIdAndUpdate(
+                user._id,
+                { $push: { saveblog: _id } },
+                { new: true }
+            );
+            await BlogSchema.findByIdAndUpdate(
+                blog._id,
+                { $push: { saveuser: user._id } },
+                { new: true }
+            );
         }
 
         return res.status(200).json({
             success: true,
-            data: updateUser,
+            message:"Saved sucessfully"
         });
     } catch (err) {
         console.log(err);
