@@ -1,36 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import BoxCard from '../Components/BoxCard';
 import SearchBar from '../Components/SearchBar';
 
+const data = [
+  {
+    title: 'Item 1',
+    description: 'This is a description for item 1.',
+    image: 'https://via.placeholder.com/150'
+  },
+  {
+    title: 'Item 2',
+    description: 'This is a description for item 2.',
+    image: 'https://via.placeholder.com/150'
+  },
+  {
+    title: 'Item 3',
+    description: 'This is a description for item 3.',
+    image: 'https://via.placeholder.com/150'
+  }
+];
+
 const Catalogue = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/getallblog");
-        const res = await response.json();
-        console.log(res.data);
-        setData(res.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    setFilteredData(
-      data.filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-    console.log(filteredData);
-  }, [data, searchTerm]);
+  const filteredData = data.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="container mx-auto p-4">
@@ -39,10 +35,13 @@ const Catalogue = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredData.map((item, index) => (
           <BoxCard 
-            key={index}
-            title={item.title}
-            description={item.description}
-            image={item.image}
+          key={index}
+          name={item.name}
+          content={item.content}
+          image={item.image}
+          date={item.date}
+          likes={item.likes}
+          comments={item.comments}
           />
         ))}
       </div>
