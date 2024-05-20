@@ -13,6 +13,10 @@ const blogSchema= mongoose.Schema({
         type:String,
         required:true,
     },
+    thumbnail:{
+        type : String,
+        required : false
+    },
     data:{
         type:String,
         required:true,
