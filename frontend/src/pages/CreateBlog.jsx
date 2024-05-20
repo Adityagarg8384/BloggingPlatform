@@ -17,6 +17,7 @@ function CreateBlog() {
     const [thumbnail, setThumbnail] = useState("");
     const [subtopics, setSubtopics] = useState([]);
     const [prob, setProb]= useState(); 
+    const [secondcontent, setSecondContent]= useState("");
     // possible scenerios
 
     // 1. new article editor empty useParams
@@ -36,7 +37,23 @@ function CreateBlog() {
         }
         // console.log("tags aagye:: ",subtopics);
     }
-    // Rewrite this func, abhi galt h 
+    // Rewrite this func, abhi galt h
+    
+    const checkContent=async()=>{
+        const secondresponse = await fetch("http://127.0.0.1:5000/classify_ai_text", {
+            method:'POST',
+            headers: {
+                Authorization: "Bearer your-jwt-token", // include JWT in the request header
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text:content}),
+        })
+
+        const res = await secondresponse.json();
+
+        setProb(res.data.probability_of_ai_text);
+    }
+
     const handleSubmit = async () => {
         // console.log(subtopics)
         const blogData = {
@@ -67,18 +84,18 @@ function CreateBlog() {
             }
         }
 
-        const secondresponse = await fetch("http://127.0.0.1:5000/classify_ai_text", {
-            method:'POST',
-            headers: {
-                Authorization: "Bearer your-jwt-token", // include JWT in the request header
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ text:content}),
-        })
+        // const secondresponse = await fetch("http://127.0.0.1:5000/classify_ai_text", {
+        //     method:'POST',
+        //     headers: {
+        //         Authorization: "Bearer your-jwt-token", // include JWT in the request header
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ text:content}),
+        // })
 
-        const res = await secondresponse.json();
+        // const res = await secondresponse.json();
 
-        setProb(res.data.probability_of_ai_text);
+        // setProb(res.data.probability_of_ai_text);
     }
 
     return (
@@ -109,6 +126,8 @@ function CreateBlog() {
                     thumbnail={thumbnail}
                     setThumbnail={setThumbnail}
                     success={success}
+                    secondcontent={secondcontent}
+                    setSecondContent={setSecondContent}
                 />
                 <div className="flex justify-center gap-7 w-full h-full">
                     <div
@@ -136,7 +155,13 @@ function CreateBlog() {
                 >
                     Publish Blog
                 </button>
-
+                <button
+                type="button"
+                className="text-white bg-green-600 hover:bg-green-700 px-10 py-2 rounded-xl font-extrabold m-4 w-1/3 text-center justify-center"
+                onClick={checkContent}
+                >
+                    Check Ai Content
+                </button>
             </div>
         </div>
     </>
