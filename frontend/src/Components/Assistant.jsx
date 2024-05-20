@@ -25,15 +25,16 @@ const Assistant = ({ state, setState }) => {
                     body: JSON.stringify({ query : message }), // Make sure to wrap message in an object
                 });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                // if (!response.ok) {
+                //     throw new Error('Network response was not ok');
+                // }
 
                 const res = await response.json();
+                console.log(res)
                 let arr2 = data;
                 arr2.splice(0,0,{message:res.response,sentBy:"ai"})
                 setData(arr2);
-                
+                console.log(data)  
                 setError(''); // Clear any previous error
             } catch (err) {
                 console.error('Fetch error:', err);
