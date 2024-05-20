@@ -28,6 +28,9 @@ const blogSchema= mongoose.Schema({
     likeuser:[{
         type:String,
     }],
+    saveuser : [{
+        type:String,
+    }],
     comments:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'CommentSchema',

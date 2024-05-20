@@ -12,15 +12,60 @@ import DOMPurify from "dompurify";
 
 const SingleBlog = () => {
     const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
+    const token = window.localStorage.getItem("token");
     const [blog,setBlog] = useState(null);
     const [assistantState,setAssistantState] = useState(false);
+    const [utilData,setUtil] = useState({liked : false , saved : false});
     const {id} = useParams();
     useEffect(()=>{
-        axios.get(`${SERVER_URL}/getblog/${id}`).then(resp => {
+        axios.get(`${SERVER_URL}/getblog/${id}`,{
+            headers : {
+                Authorization: token,
+            }
+        }).then(resp => {
             console.log(resp.data.data)
-            setBlog(resp.data.data);
+            setBlog(resp.data.data.blog);
+            setUtil({
+                liked : resp.data.data.liked,
+                saved : resp.data.data.saved
+            })
         })
     },[]);
+    const handleLike = async () => {
+        const response = await fetch(`${SERVER_URL}/likedblog`, {
+            method: "POST",
+            headers: {
+                Authorization: token, // include JWT in the request header
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({_id:id}),
+        });
+        if(response.ok){
+            let newLike = blog.like;
+            if(!utilData.liked){
+                newLike = newLike + 1;
+            }else{
+                newLike = newLike - 1;
+            }
+            setUtil({...utilData,liked : !utilData.liked});
+            setBlog({...blog,like : newLike})
+        }
+    }
+    const handleSave = async () => {
+        const response = await fetch(`${SERVER_URL}/savedblog`, {
+            method: "POST",
+            headers: {
+                Authorization: token, // include JWT in the request header
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({_id:id}),
+        });
+        if(response.ok){
+            
+            setUtil({...utilData,saved : !utilData.saved});
+            
+        }
+    }
   return ( 
     <div>
         <ResponsiveAppBar/>
@@ -52,8 +97,8 @@ const SingleBlog = () => {
                     <hr/>
                     <div className='w-full p-2 flex justify-between'>
                         <div className='flex gap-x-5 items-center'>
-                            <Button sx={{color:"black",columnGap:1}} >
-                                <BiLike size={20}/>
+                            <Button sx={{color:"black",columnGap:1}} onClick={handleLike}>
+                                {!utilData.liked ? <BiLike size={20}/> : <BiSolidLike size={20}/>}
                                 {blog && (blog.like !== undefined && blog.like !== null)  ? blog.like : 10}
                             </Button> 
                             
@@ -65,8 +110,8 @@ const SingleBlog = () => {
                         </div>
                         <div>
                             <div className=' flex gap-x-5 items-center'>
-                                <Button sx={{color:"black",columnGap:1}}>
-                                    <MdOutlineBookmarkAdd size={25} className='pt-[3px]'/>
+                                <Button onClick={handleSave} sx={{color:"black",columnGap:1}}>
+                                    {!utilData.saved ? <MdOutlineBookmarkAdd size={25} className='pt-[3px]'/> : <MdBookmarkAdded size={25}/>}
                                 </Button>
                                 <Button sx={{color:"black",columnGap:1}}>
                                     <MdOutlineIosShare size={20}/>
