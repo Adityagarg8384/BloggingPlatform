@@ -1,4 +1,4 @@
-import logo1 from "./smth.jpg"
+import logo1 from "../assets/smth.jpg"
 import {PiHandsClappingLight} from "react-icons/pi";
 import {BiMessageRounded} from "react-icons/bi";
 import {MdOutlineBookmarkAdd} from "react-icons/md"
