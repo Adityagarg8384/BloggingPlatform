@@ -121,11 +121,13 @@ const SingleBlog = () => {
                     </div>
                     <hr/>
                     <div
-                        className="w-full h-full m-10 !text-black sm:mx-0 prose-h1:font-sans prose prose-stone prose-headings:!text-black lg:prose-xl prose-img:mx-auto prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-400 editor-output"
+                        className="w-full h-full m-10 !text-black prose-h1:font-sans prose prose-stone prose-headings:!text-black lg:prose-xl prose-img:mx-auto prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-400 editor-output"
                         dangerouslySetInnerHTML={blog.thumbnail ? 
                             {
                                 __html: DOMPurify.sanitize(
-                                    `<img src="${blog.thumbnail}" />` + 
+                                    `<div style="display:flex;width:100%;justify-items:center">
+                                    <img src="${blog.thumbnail}" />
+                                    </div>` + 
                                     blog.data
                                 ),
                             } :
