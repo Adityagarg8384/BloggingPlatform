@@ -166,7 +166,7 @@ const Login = () =>{
                     {
                         account === 'login' ?
                     <Wrapper>
-                    <TextField onChange={(e) => onInputChange(e)} name='username' variant="standard" label='Enter Username' />
+                    <TextField onChange={(e) => onInputChange(e)} name='username' variant="standard" label='Enter Username'/>
                     <TextField onChange={(e) => onInputChange(e)} name='password' variant="standard" label='Enter Password'/>
 
                     {error && <Error>{error}</Error>}
