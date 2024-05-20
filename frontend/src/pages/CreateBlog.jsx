@@ -15,6 +15,7 @@ function CreateBlog() {
     const [heading, setHeading] = useState("");
     const [thumbnail, setThumbnail] = useState("");
     const [subtopics, setSubtopics] = useState([]);
+    const [prob, setProb]= useState(); 
     // possible scenerios
 
     // 1. new article editor empty useParams
@@ -63,6 +64,23 @@ function CreateBlog() {
                 navigate("/");
             }
         }
+
+        const secondresponse = await fetch("http://127.0.0.1:5000/", {
+            method:'POST',
+            headers: {
+                Authorization: "Bearer your-jwt-token", // include JWT in the request header
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text:content}),
+        })
+
+        if (!secondresponse.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const res = await response.json();
+
+        setProb(res.probability_of_ai_text);
     }
   return (
     <>
