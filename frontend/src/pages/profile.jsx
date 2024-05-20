@@ -10,6 +10,7 @@ import "../index.css";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as solidStar, faStarHalfAlt, faStar as regularStar, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { ThumbsUp } from 'lucide-react';
 
 const Profile = () => {
     const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -20,7 +21,47 @@ const Profile = () => {
             password: "smile",
             profilepic: "",
             age: 18,
-            blog: [],
+            blog: [{
+                username: "Aryan Satija",
+                title: "The Final Frontier: Exploring the Wonders of Space",
+                subtitle: "Space, the final frontier. This vast, seemingly infinite expanse has fascinated humankind for centuries, inspiring countless stories, theories, and scientific discoveries. ", 
+                data: "Space is an awe-inspiring place, filled with celestial bodies that spark our imagination and curiosity. From the fiery glow of distant stars to the majestic rings of Saturn, the cosmos is a treasure trove of wonders. Here are a few highlights:",
+                tags: ["space", "cosmos"],
+                likes: 5
+            },
+            {
+                username: "Aryan Satija",
+                title: "The Final Frontier: Exploring the Wonders of Space",
+                subtitle: "Space, the final frontier. This vast, seemingly infinite expanse has fascinated humankind for centuries, inspiring countless stories, theories, and scientific discoveries. ", 
+                data: "Space is an awe-inspiring place, filled with celestial bodies that spark our imagination and curiosity. From the fiery glow of distant stars to the majestic rings of Saturn, the cosmos is a treasure trove of wonders. Here are a few highlights:",
+                tags: ["space", "cosmos"],
+                likes: 5
+            },
+            {
+                username: "Aryan Satija",
+                title: "The Final Frontier: Exploring the Wonders of Space",
+                subtitle: "Space, the final frontier. This vast, seemingly infinite expanse has fascinated humankind for centuries, inspiring countless stories, theories, and scientific discoveries. ", 
+                data: "Space is an awe-inspiring place, filled with celestial bodies that spark our imagination and curiosity. From the fiery glow of distant stars to the majestic rings of Saturn, the cosmos is a treasure trove of wonders. Here are a few highlights:",
+                tags: ["space", "cosmos"],
+                likes: 5
+            },
+            {
+                username: "Aryan Satija",
+                title: "The Final Frontier: Exploring the Wonders of Space",
+                subtitle: "Space, the final frontier. This vast, seemingly infinite expanse has fascinated humankind for centuries, inspiring countless stories, theories, and scientific discoveries. ", 
+                data: "Space is an awe-inspiring place, filled with celestial bodies that spark our imagination and curiosity. From the fiery glow of distant stars to the majestic rings of Saturn, the cosmos is a treasure trove of wonders. Here are a few highlights:",
+                tags: ["space", "cosmos"],
+                likes: 5
+            },{
+                username: "Aryan Satija",
+                title: "The Final Frontier: Exploring the Wonders of Space",
+                subtitle: "Space, the final frontier. This vast, seemingly infinite expanse has fascinated humankind for centuries, inspiring countless stories, theories, and scientific discoveries. ", 
+                data: "Space is an awe-inspiring place, filled with celestial bodies that spark our imagination and curiosity. From the fiery glow of distant stars to the majestic rings of Saturn, the cosmos is a treasure trove of wonders. Here are a few highlights:",
+                tags: ["space", "cosmos"],
+                likes: 5
+            }
+
+        ],
             saveblog: [],
             likedblog: []
         }
@@ -88,7 +129,7 @@ const Profile = () => {
                                         </p>
                                         <p className='text-center'>
                                             {
-                                                profile.blog.length ?? 0
+                                                profile?.blog.length ?? 0
                                             }
                                         </p>
                                     </div>
@@ -98,7 +139,7 @@ const Profile = () => {
                                         </p>
                                         <p className='text-center'>
                                             {
-                                                profile.saveblog.length ?? 0
+                                                profile?.saveblog.length ?? 0
                                             }
                                         </p>
                                     </div>
@@ -108,7 +149,7 @@ const Profile = () => {
                                         </p>
                                         <p className='text-center'>
                                             {
-                                                profile.likedblog.length ?? 0
+                                                profile?.likedblog.length ?? 0
                                             }
                                         </p>
                                     </div>
@@ -129,6 +170,48 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                    <div className='flex flex-col items-center'>
+                        <div className='text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-400 bg-clip-text text-transparent inline-block'>User Blogs:</div>
+                    </div>
+                    <div className='mt-4 flex flex-row flex-wrap gap-4 items-center justify-center'>
+                    {
+                        profile?.blog.map((user_blog)=>{
+                            return (
+                                <div className='w-[380px] flex flex-col gap-4 border-2 border-slate-300 p-4 rounded-md shadow-md shadow-slate-400'>
+                                    <div className='font-bold bg-gradient-to-r from-slate-800 to-slate-400 bg-clip-text text-transparent inline-block'>
+                                        {
+                                            user_blog.title
+                                        }
+                                    </div>
+                                    <div className='font-semibold text-slate-600'>
+                                        {
+                                            user_blog.subtitle
+                                        }
+                                    </div>
+                                    <div className='flex flex-col md:flex-row  flex-wrap w-full gap-2 items-center'>
+                                        {
+                                            user_blog.tags.map((tag)=>{
+                                                return (<span className='bg-blue-500 border-2 border-blue-700 cursor-pointer hover:scale-105 duration-200 p-2 rounded-full w-[5rem] flex items-center justify-center text-slate-200'>{
+                                                    tag
+                                                }</span>)
+                                            })
+                                        }
+                                    </div>
+                                    <div className='flex flex-row items-center justify-start gap-2 '>
+                                        <p className='font-bold text-slate-600'>
+                                        {
+                                            user_blog.likes
+                                        }
+                                        </p>
+                                        <ThumbsUp className='text-blue-600'/>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                    </div>
                     </div>
                 </div>
             )}
