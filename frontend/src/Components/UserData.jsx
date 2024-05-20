@@ -6,24 +6,9 @@ const UserData = ({data}) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isHovered1, setIsHovered1] = useState(false);
     const [isHovered2, setIsHovered2] = useState(false);
-    const [rating, setRating] = useState(4); // Replace with the actual rating value
+     // Replace with the actual rating value
 
-    const renderStars = () => {
-        console.log(typeof(rating));
-        const stars = [];
-        console.log(rating)
-        for (let i = 1; i <= 5; i++) {
-            if (i <= Math.floor(rating)) {
-                console.log(Math.floor(rating));
-                stars.push(<FontAwesomeIcon key={i} icon={solidStar} className="text-yellow-400" />);
-            } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
-                stars.push(<FontAwesomeIcon key={i} icon={faStarHalfAlt} className="text-yellow-400" />);
-            } else {
-                stars.push(<FontAwesomeIcon key={i} icon={regularStar}  />);
-            }
-        }
-        return stars;
-    };
+
 
     return (
         <div className="flex flex-col h-52 w-full">
