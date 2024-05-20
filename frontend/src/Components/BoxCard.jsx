@@ -3,6 +3,10 @@ import {PiHandsClappingLight} from "react-icons/pi";
 import {BiMessageRounded} from "react-icons/bi";
 import {MdOutlineBookmarkAdd} from "react-icons/md"
 const BoxCard = ({name,content,image,date,likes,comments}) => {
+    // console.log(name);
+    // console.log(content);
+    // console.log(date);
+    // console.log(likes);
     const logo = image ? image : logo1;
     content = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis minima harum impedit ratione. Repellendus, quasi id eveniet similique aut cupiditate non enim impedit laboriosam fugiat! Iste laborum voluptatibus laboriosam! Doloribus aliquid iste in iure culpa non! Rem, nobis pariatur eligendi rerum perspiciatis consectetur quaerat minima officia possimus ratione voluptatum fuga."
     var newContent;
@@ -23,19 +27,19 @@ const BoxCard = ({name,content,image,date,likes,comments}) => {
             <div className="flex gap-x-2 w-full">
                 <div className="hover:opacity-60 rounded-full h-[20px] w-[20px]"><img src = {logo} className="rounded-full h-full w-full"></img></div>
                 <div className="flex gap-x-2">
-                    <p className="hover:underline">User</p> in <p className="hover:underline">Title</p>
+                    <p className="hover:underline text-black">User</p> in <p className="hover:underline">Title</p>
                 </div>
             </div>
             <div className="block w-full ">
-                <h1 className="font-bold text-xl my-2">{name ? name : "Lorem ipsum dolor sit amet consectetur adipisicing."}</h1>
-                <p title={newContent != content ? content : null}>
+                <h1 className="font-bold text-xl my-2 text-black">{name ? name : "Lorem ipsum dolor sit amet consectetur adipisicing."}</h1>
+                <p title={newContent != content ? content : null} className="text-black">
                     {content ? newContent : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, dolores? " } 
                 </p>
             </div>
             <div className="flex gap-x-2">
-                <p className="text-sm ">10 min read</p>
+                <p className="text-sm className='text-black">10 min read</p>
                 <div>|</div>
-                <p className="text-sm ">{date ? date : "Date"} </p>
+                <p className="text-sm text-black ">{date ? date : "Date"} </p>
             </div>
             <div className="flex justify-between">
                 <div className="flex gap-x-5 ">
