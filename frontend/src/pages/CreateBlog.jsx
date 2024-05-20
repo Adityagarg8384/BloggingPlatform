@@ -5,6 +5,7 @@ import DOMPurify from "dompurify";
 import { useNavigate, useParams } from "react-router-dom";
 import ResponsiveAppBar from '../Components/ResponsiveAppBar';
 import DialogBox from '../Components/DialogBox';
+import Assistant from '../Components/Assistant';
 
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
@@ -24,7 +25,8 @@ function CreateBlog() {
 
     const blog_id = useParams().blog_id; 
     const navigate = useNavigate();
-
+    const [assistantState,setAssistantState] = useState(false);
+    
     const [success, setSuccess] = useState();
     const [addTags,setAddTags] = useState(false);
     const handleTags = (flag) =>{
@@ -82,6 +84,7 @@ function CreateBlog() {
     return (
     <>
         <ResponsiveAppBar/>
+        <Assistant state={assistantState} setState={setAssistantState}/>
         {
             addTags ? (
             <>
