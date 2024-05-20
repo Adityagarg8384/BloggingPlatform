@@ -27,7 +27,7 @@ function CreateBlog() {
     const blog_id = useParams().blog_id; 
     const navigate = useNavigate();
     const [assistantState,setAssistantState] = useState(false);
-    
+    const pyth_url  = import.meta.env.VITE_REACT_APP_PYTHON_URL;
     const [success, setSuccess] = useState();
     const [addTags,setAddTags] = useState(false);
     const handleTags = (flag) =>{
@@ -40,7 +40,7 @@ function CreateBlog() {
     // Rewrite this func, abhi galt h
     
     const checkContent=async()=>{
-        const secondresponse = await fetch("http://127.0.0.1:5000/classify_ai_text", {
+        const secondresponse = await fetch(`${pyth_url}/classify_ai_text`, {
             method:'POST',
             headers: {
                 Authorization: "Bearer your-jwt-token", // include JWT in the request header

@@ -6,7 +6,7 @@ const Assistant = ({ state, setState }) => {
     const [data, setData] = useState([]);
     const [message, setMessage] = useState('');
     const [error, setError] = useState(''); // State to manage error messages
-
+    const pyth_url  = import.meta.env.VITE_REACT_APP_PYTHON_URL;
     const handleSubmit = async () => {
         if (message.trim() !== '') {
             let arr = data;
@@ -16,7 +16,7 @@ const Assistant = ({ state, setState }) => {
             setMessage('');
             try {
                 
-                const response = await fetch("https://bloggingplatform-ww52.onrender.com/blog_assistant", {
+                const response = await fetch(`${pyth_url}/blog_assistant`, {
                     method: "POST",
                     headers: {
                         Authorization: "Bearer your-jwt-token", // include JWT in the request header
