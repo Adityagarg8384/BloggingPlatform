@@ -6,14 +6,17 @@ const Assistant = ({ state, setState }) => {
     const [data, setData] = useState([]);
     const [message, setMessage] = useState('');
     const [error, setError] = useState(''); // State to manage error messages
-    const pyth_url  = import.meta.env.VITE_REACT_APP_PYTHON_URL;
+    const pyth_url  = import.meta.env.VITE_REACT_APP_PYTHON_URL ?? "http://127.0.0.1:5000";
     const handleSubmit = async () => {
         if (message.trim() !== '') {
             let arr = data;
+            
             arr.splice(0,0,{message,sentBy:"user"})
-            // console.log(arr);    
-            setData(arr);
+ 
+            // setData(arr);
+
             setMessage('');
+            
             try {
                 
                 const response = await fetch(`${pyth_url}/blog_assistant`, {
@@ -25,16 +28,15 @@ const Assistant = ({ state, setState }) => {
                     body: JSON.stringify({ query : message }), // Make sure to wrap message in an object
                 });
 
-                // if (!response.ok) {
-                //     throw new Error('Network response was not ok');
-                // }
-
                 const res = await response.json();
                 console.log(res)
-                let arr2 = data;
-                arr2.splice(0,0,{message:res.response,sentBy:"ai"})
-                setData(arr2); 
-                console.log(data)  
+                // let arr2 = data;
+                arr.splice(0,0,{message:res.response,sentBy:"ai"})
+                
+                setData((prev)=>{
+                    return [...arr]
+                }); 
+
                 setError(''); // Clear any previous error
             } catch (err) {
                 console.error('Fetch error:', err);
