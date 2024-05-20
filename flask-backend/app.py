@@ -91,5 +91,5 @@ def classify_ai_text():
         }
     }), 200
     
-if __name__ == "__app__":
+if __name__ == "__main__":
     app.run(debug = True)
